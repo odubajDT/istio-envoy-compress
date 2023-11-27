@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-istio-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poc-istio
+  template:
+    metadata:
+      labels:
+        app: poc-istio
+    spec:
+      containers:
+        - name: poc-istio
+          image: docker.io/odubajdt/poc-istio:test3
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poc-istio-service
+spec:
+  selector:
+    app: poc-istio
+  ports:
+    - name: port-8080
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
